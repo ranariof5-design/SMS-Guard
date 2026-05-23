@@ -1,0 +1,477 @@
+<!--index.html 111guard-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SMS Security Agency</title>
+    <link rel="stylesheet" href="Style.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+</head>
+<body>
+
+    <div id="app">
+        <div class="phone-shell">
+            <div id="screen-login" class="screen active">
+                <img src="logo.png" alt="SMS Security Logo" class="login-logo" />
+                <div class="login-title">SMS SECURITY</div>
+                <div class="login-subtitle">Agency</div>
+
+                <div class="login-form">
+                    <div class="input-group">
+                        <label>Username</label>
+                        <div class="input-wrap">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" /><circle cx="12" cy="7" r="4" /></svg>
+                            <input id="login-username" type="text" placeholder="Enter username" autocomplete="username" />
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <label>Password</label>
+                        <div class="input-wrap">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" /><path d="M7 11V7a5 5 0 0 1 10 0v4" /></svg>
+                            <input id="login-password" type="password" placeholder="Enter password" autocomplete="current-password" />
+                        </div>
+                    </div>
+
+                    <button class="btn-login" id="btn-do-login">LOGIN</button>
+                    <div class="login-notice">AUTHORIZED PERSONNEL ONLY</div>
+                </div>
+            </div>
+
+            <nav class="top-nav" id="top-nav" style="display:none;" ">
+                <img src="logo.png" alt="Logo" class="nav-logo" />
+                <div class="nav-spacer"></div>
+
+                <button class="nav-icon-btn" id="nav-bell" title="Notifications" data-screen="screen-notifications">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" /><path d="M13.73 21a2 2 0 0 1-3.46 0" /></svg>
+                    <span class="badge hidden" id="nav-notif-count"></span>
+                </button>
+
+                <button class="nav-icon-btn" id="nav-refresh" title="Refresh">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8" /><path d="M21 3v5h-5" /><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16" /><path d="M8 16H3v5" /></svg>
+                </button>
+
+                <button class="nav-text-btn" id="nav-changepass" data-screen="screen-changepass">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" /><path d="M7 11V7a5 5 0 0 1 10 0v4" /></svg>
+                    change pass
+                </button>
+
+                <button class="btn-logout" id="nav-logout">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" /><polyline points="16 17 21 12 16 7" /><line x1="21" y1="12" x2="9" y2="12" /></svg>
+                    Logout
+                </button>
+            </nav>
+
+            <div id="screen-home" class="screen">
+                <div class="screen-content">
+
+                    <div class="welcome-row">
+                        <div class="welcome-text">
+                            WELCOME,
+                            <span id="home-username">—</span>
+                        </div>
+                    </div>
+
+                    <div class="post-card">
+                        <div class="post-card-label">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" /><polyline points="9 22 9 12 15 12 15 22" /></svg>
+                            ASSIGNED POST
+                        </div>
+                        <div class="post-card-name" id="home-schedule-location">Loading…</div>
+                        <div class="post-card-address" id="home-schedule-address">—</div>
+                        <div class="post-card-address mt-2" id="home-schedule-supervisor">Supervisor: —</div>
+                        <div class="post-card-address mt-2" id="home-schedule-dates"></div>
+                        <div class="post-card-address mt-2" id="home-timein-indicator">—</div>
+
+                        <div class="post-card-footer">
+                            <div class="post-card-time" id="home-schedule-time">—</div>
+                            <button class="btn-location" id="btn-go-location">
+                                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" /><circle cx="12" cy="10" r="3" /></svg>
+                                Location
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="section-label">QUICK ACTIONS</div>
+                    <div class="quick-actions">
+                        <button class="quick-action-item danger" id="btn-go-incident">
+                            <div class="qa-icon red">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" /><polyline points="14 2 14 8 20 8" /><line x1="12" y1="18" x2="12" y2="12" /><line x1="9" y1="15" x2="15" y2="15" /></svg>
+                            </div>
+                            <span class="qa-label">REPORT INCIDENTS</span>
+                        </button>
+
+                        <button class="quick-action-item" id="btn-go-leave">
+                            <div class="qa-icon teal">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" /><line x1="16" y1="2" x2="16" y2="6" /><line x1="8" y1="2" x2="8" y2="6" /><line x1="3" y1="10" x2="21" y2="10" /></svg>
+                            </div>
+                            <span class="qa-label">REQUEST LEAVE</span>
+                        </button>
+
+                        <button class="quick-action-item" id="btn-go-payroll">
+                            <div class="qa-icon navy">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2" /><line x1="2" y1="10" x2="22" y2="10" /></svg>
+                            </div>
+                            <span class="qa-label">VIEW PAYROLL</span>
+                        </button>
+                    </div>
+
+                    <div class="memorandum-section mt-16">
+                        <div class="memorandum-card-title">Announcement</div>
+                        <div class="memorandum-card" id="home-memorandum-card">
+                            <div class="memorandum-inner" id="home-announcements-preview">
+                                <div class="memorandum-entry">
+                                    <div class="memorandum-body">
+                                        <div class="memorandum-bubble text-muted-italic">Loading announcements…</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="memorandum-footer">
+                                <button type="button" class="memorandum-view-all hidden" id="btn-home-announcements-more">view all</button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div id="screen-notifications" class="screen">
+                <div class="page-header">
+                    <button class="back-btn" data-back="screen-home">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6" /></svg>
+                        BACK
+                    </button>
+                    <span class="page-title page-title-notification">NOTIFICATION</span>
+                </div>
+                <div class="screen-content">
+                    <div class="notif-list" id="notif-list">
+                        <div class="recent-item">
+                            <span class="recent-label text-muted-italic">Loading notifications…</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="screen-changepass" class="screen">
+                <div class="page-header">
+                    <button class="back-btn" data-back="screen-home">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6" /></svg>
+                        BACK
+                    </button>
+                    <span class="page-title">Change Password</span>
+                </div>
+                <div class="screen-content">
+                    <div class="form-card">
+                        <div class="form-group">
+                            <label>Current Password</label>
+                            <div class="form-input-wrap">
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" /><path d="M7 11V7a5 5 0 0 1 10 0v4" /></svg>
+                                <input type="password" id="cp-current" placeholder="Enter current password" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>New Password</label>
+                            <div class="form-input-wrap">
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" /><path d="M7 11V7a5 5 0 0 1 10 0v4" /></svg>
+                                <input type="password" id="cp-new" placeholder="Enter new password" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Confirm New Password</label>
+                            <div class="form-input-wrap">
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" /><path d="M7 11V7a5 5 0 0 1 10 0v4" /></svg>
+                                <input type="password" id="cp-confirm" placeholder="Confirm new password" />
+                            </div>
+                        </div>
+                        <div class="password-req hidden" id="password-req-hint">
+                            At least 5 characters long
+                        </div>
+                        <div class="form-actions">
+                            <button class="btn-cancel" data-back="screen-home">CANCEL</button>
+                            <button class="btn-primary" id="btn-change-pass">CHANGE PASSWORD</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="screen-location" class="screen">
+                <div class="page-header">
+                    <button class="back-btn" data-back="screen-home">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6" /></svg>
+                        BACK
+                    </button>
+                    <span class="page-title">Post Location</span>
+                </div>
+
+                <div class="screen-content">
+                    <div class="location-card">
+
+                        <div id="location-map-wrap">
+                            <div class="map-loading" id="map-loading-state">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" /><circle cx="12" cy="10" r="3" /></svg>
+                                LOCATING POST…
+                            </div>
+                            <div id="location-map" class="hidden"></div>
+                        </div>
+
+                        <div class="location-info">
+                            <div class="location-name" id="loc-location-name">Loading…</div>
+                            <div class="location-address" id="loc-location-address">—</div>
+                            <div class="location-desc-label">Shift:</div>
+                            <div class="location-desc-text" id="loc-shift-details">—</div>
+                            <div class="location-desc-text" id="loc-schedule-dates"></div>
+                            <div class="location-desc-label mt-10">Supervisor:</div>
+                            <div class="location-desc-text" id="loc-supervisor">—</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="screen-incident" class="screen">
+                <div class="page-header">
+                    <button class="back-btn" data-back="screen-home">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6" /></svg>
+                        BACK
+                    </button>
+                    <span class="page-title">Incident Report</span>
+                </div>
+                <div class="screen-content">
+                    <div class="incident-datetime">
+                        <span class="datetime-badge">
+                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" /><line x1="16" y1="2" x2="16" y2="6" /><line x1="8" y1="2" x2="8" y2="6" /><line x1="3" y1="10" x2="21" y2="10" /></svg>
+                            <span id="incident-date">—</span>
+                        </span>
+                        <span class="datetime-badge">
+                            <span id="incident-time">—</span>
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9" /></svg>
+                        </span>
+                    </div>
+                    <div class="severity-row">
+                        <span class="severity-label">SEVERITY</span>
+                        <select id="incident-severity" class="severity-select">
+                            <option value="Low" selected>Low</option>
+                            <option value="Medium">Medium</option>
+                            <option value="High">High</option>
+                        </select>
+                    </div>
+                    <div class="incident-form-card">
+                        <div class="form-group">
+                            <label>INCIDENT TITLE</label>
+                            <div class="form-input-wrap">
+                                <input type="text" id="incident-title" placeholder="Brief title" class="input-padding-left" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>INCIDENT DESCRIPTION</label>
+                            <textarea id="incident-desc" placeholder="Describe what happened..."></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>ATTACH EVIDENCE (OPTIONAL)</label>
+                            <div class="file-upload" id="file-upload-area">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><polyline points="17 8 12 3 7 8" /><line x1="12" y1="3" x2="12" y2="15" /></svg>
+                                Upload a photo or documents
+                                <input type="file" id="incident-file" class="hidden" accept="image/*,.pdf" />
+                            </div>
+                        </div>
+                        <div class="form-actions">
+                            <button class="btn-cancel" data-back="screen-home">CANCEL</button>
+                            <button class="btn-danger" id="btn-submit-incident">SUBMIT REPORT</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="screen-leave" class="screen">
+                <div class="page-header">
+                    <button class="back-btn" data-back="screen-home">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6" /></svg>
+                        BACK
+                    </button>
+                    <span class="page-title">Leave Request</span>
+                </div>
+                <div class="screen-content">
+                    <div class="form-card">
+                        <div class="form-group">
+                            <label>LEAVE TYPE</label>
+                            <select id="leave-type">
+                                <option value="" disabled selected>Select leave type</option>
+                                <option value="Sick Leave">Sick Leave</option>
+                                <option value="Vacation Leave">Vacation Leave</option>
+                                <option value="Emergency Leave">Emergency Leave</option>
+                                <option value="Maternity Leave">Maternity Leave</option>
+                                <option value="Paternity Leave">Paternity Leave</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>DATE RANGE</label>
+                            <div class="leave-date-picker" id="leave-date-picker">
+                                <button type="button" class="leave-date-trigger" id="leave-date-trigger" aria-expanded="false" aria-haspopup="dialog">
+                                    <span id="leave-date-display">Select date range</span>
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2" /><line x1="16" y1="2" x2="16" y2="6" /><line x1="8" y1="2" x2="8" y2="6" /><line x1="3" y1="10" x2="21" y2="10" /></svg>
+                                </button>
+                                <input type="hidden" id="leave-start" />
+                                <input type="hidden" id="leave-end" />
+                                <div class="leave-calendar-popup hidden" id="leave-calendar-popup" role="dialog" aria-label="Leave date range">
+                                    <p class="leave-calendar-instruction" id="leave-calendar-instruction">Select start date</p>
+                                    <div class="leave-calendar-nav">
+                                        <button type="button" class="leave-cal-nav-btn" id="leave-cal-prev" aria-label="Previous month">&lsaquo;</button>
+                                        <span class="leave-cal-month-label" id="leave-cal-month-label"></span>
+                                        <button type="button" class="leave-cal-nav-btn" id="leave-cal-next" aria-label="Next month">&rsaquo;</button>
+                                    </div>
+                                    <div class="leave-calendar-weekdays">
+                                        <span>Su</span><span>Mo</span><span>Tu</span><span>We</span><span>Th</span><span>Fr</span><span>Sa</span>
+                                    </div>
+                                    <div class="leave-calendar-grid" id="leave-calendar-grid"></div>
+                                    <p class="leave-calendar-note">You cannot leave on or before the current day. Add leave request after the current day.</p>
+                                </div>
+                            </div>
+                            <div id="leave-duration" class="leave-duration-info"></div>
+                        </div>
+                        <div class="form-group">
+                            <label>REASON FOR LEAVE</label>
+                            <textarea id="leave-reason" placeholder="Provide your reason..."></textarea>
+                        </div>
+                        <div class="form-actions">
+                            <button class="btn-cancel" data-back="screen-home">CANCEL</button>
+                            <button class="btn-primary" id="btn-submit-leave">SUBMIT LEAVE</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- index.html - Corrected Payroll Section -->
+            <div id="screen-payroll" class="screen">
+                <div class="page-header">
+                    <button class="back-btn" data-back="screen-home">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6" /></svg>
+                        BACK
+                    </button>
+                    <span class="page-title">Payroll Center</span>
+                </div>
+                <div class="screen-content">
+                    <!-- CURRENT / PENDING PAYROLL CARD -->
+                    <div class="section-label">ACTIVE PERIOD</div>
+                    <div class="payroll-card" id="current-payroll-card">
+                        <div class="payroll-header">
+                            <div class="payroll-title">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2" /><line x1="2" y1="10" x2="22" y2="10" /></svg>
+                                CURRENT STATUS
+                            </div>
+                            <div class="payroll-date">
+                                <span id="pay-period">Loading…</span>
+                            </div>
+                        </div>
+
+                        <div class="payroll-row">
+                            <span class="payroll-row-label">Gross salary</span>
+                            <span class="payroll-row-value" id="pay-gross">₱0.00</span>
+                        </div>
+                        <div class="payroll-row">
+                            <span class="payroll-row-label">Days worked</span>
+                            <span class="payroll-row-value" id="pay-days">0 days</span>
+                        </div>
+                        <div class="payroll-row">
+                            <span class="payroll-row-label">Overtime (days)</span>
+                            <span class="payroll-row-value" id="pay-ot">0 days</span>
+                        </div>
+
+                        <div class="payroll-row bold">
+                            <div class="deduction-toggle" onclick="document.getElementById('deduction-details').classList.toggle('hidden')">
+                                <span class="payroll-row-label deduction-label">Total Deductions</span>
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9" /></svg>
+                            </div>
+                            <span class="payroll-row-value deduction" id="pay-deductions">₱0.00</span>
+                        </div>
+
+                        <div id="deduction-details" class="hidden">
+                            <div class="payroll-row deduction-row">
+                                <span class="payroll-row-label deduction-label-small">SSS</span>
+                                <span class="payroll-row-value deduction-value" id="det-sss">₱0.00</span>
+                            </div>
+                            <div class="payroll-row deduction-row">
+                                <span class="payroll-row-label deduction-label-small">PhilHealth</span>
+                                <span class="payroll-row-value deduction-value" id="det-phil">₱0.00</span>
+                            </div>
+                            <div class="payroll-row deduction-row">
+                                <span class="payroll-row-label deduction-label-small">Pag-IBIG</span>
+                                <span class="payroll-row-value deduction-value" id="det-pagibig">₱0.00</span>
+                            </div>
+                            <div class="payroll-row deduction-row">
+                                <span class="payroll-row-label deduction-label-small">Cash Advance</span>
+                                <span class="payroll-row-value deduction-value" id="det-cashdev">₱0.00</span>
+                            </div>
+                            <div class="payroll-row deduction-row">
+                                <span class="payroll-row-label deduction-label-small">Late</span>
+                                <span class="payroll-row-value deduction-value" id="det-late">₱0.00</span>
+                            </div>
+                            <div class="payroll-row deduction-row">
+                                <span class="payroll-row-label deduction-label-small">Undertime</span>
+                                <span class="payroll-row-value deduction-value" id="det-undertime">₱0.00</span>
+                            </div>
+                        </div>
+
+                        <div class="net-pay-row">
+                            <span class="net-pay-label">Estimated Net</span>
+                            <span class="net-pay-value" id="pay-net">₱0.00</span>
+                        </div>
+                    </div>
+
+                    <!-- HISTORY SECTION -->
+                    <div class="section-label mt-16">PAYROLL HISTORY</div>
+                    <div class="quick-actions" id="payroll-history-list">
+                        <div class="recent-item"><span class="recent-label text-muted-italic">Loading history…</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SINGLE PAYSLIP MODAL -->
+            <div id="modal-payslip" style="position:fixed; inset:0; background:rgba(7, 21, 37, 0.95); z-index:2000; display:none; align-items:center; justify-content:center; padding:20px;">
+                <div class="payroll-card" style="width:100%; max-width:380px; position:relative; border: 1px solid var(--light-blue);">
+                    <button onclick="document.getElementById('modal-payslip').style.display='none'" style="position:absolute; top:15px; right:15px; background:rgba(255,255,255,0.1); border:none; color:white; width:30px; height:30px; border-radius:50%; cursor:pointer; font-weight:bold;">✕</button>
+                    <div class="payroll-title" style="margin-bottom:20px; border-bottom:1px solid rgba(167,217,230,0.3); padding-bottom:10px;">HISTORICAL PAYSLIP</div>
+                    <div id="modal-payslip-content"></div>
+                </div>
+            </div>
+            <div id="modal-payslip" class="hidden" style="position:fixed; inset:0; background:rgba(0,0,0,0.8); z-index:2000; display:flex; align-items:center; justify-content:center; padding:20px;">
+                <div class="payroll-card" style="width:100%; max-width:380px; position:relative;">
+                    <button onclick="document.getElementById('modal-payslip').classList.add('hidden')" style="position:absolute; top:10px; right:10px; background:none; border:none; color:white; font-size:20px;">×</button>
+                    <div class="payroll-title" style="margin-bottom:15px;">PAID PAYSLIP</div>
+                    <div id="modal-payslip-content"></div>
+                </div>
+            </div>
+            <div id="screen-announcements" class="screen">
+                <div class="page-header">
+                    <button class="back-btn" data-back="screen-home">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6" /></svg>
+                        BACK
+                    </button>
+                    <span class="page-title">Announcement</span>
+                </div>
+                <div class="screen-content">
+                    <div class="memorandum-card memorandum-card-page">
+                        <div class="memorandum-inner" id="announcements-list">
+                            <div class="memorandum-entry">
+                                <div class="memorandum-body">
+                                    <div class="memorandum-bubble text-muted-italic">Loading announcements…</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PAYSLIP MODAL -->
+            <div id="modal-payslip" class="hidden" style="position:fixed; inset:0; background:rgba(7, 21, 37, 0.9); z-index:2000; display:none; align-items:center; justify-content:center; padding:20px; backdrop-blur: 4px;">
+                <div class="payroll-card" style="width:100%; max-width:380px; position:relative; border: 1px solid var(--light-blue);">
+                    <button onclick="document.getElementById('modal-payslip').style.display='none'" style="position:absolute; top:15px; right:15px; background:rgba(255,255,255,0.1); border:none; color:white; width:30px; height:30px; border-radius:50%; cursor:pointer;">✕</button>
+                    <div class="payroll-title" style="margin-bottom:20px; border-bottom:1px solid var(--light-blue); padding-bottom:10px;">HISTORICAL PAYSLIP</div>
+                    <div id="modal-payslip-content"></div>
+                </div>
+            </div>
+            <div class="toast" id="toast"></div>
+
+            <script src="main.js"></script>
+</body>
+</html>
