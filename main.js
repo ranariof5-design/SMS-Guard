@@ -2,7 +2,7 @@
 
 //https://refute-yearbook-greeter.ngrok-free.dev
 //https://unopprobrious-jason-demonstrational.ngrok-free.dev
-const API_BASE = 'https://refute-yearbook-greeter.ngrok-free.dev';
+const API_BASE = '//https://unopprobrious-jason-demonstrational.ngrok-free.dev';
 
 const AppState = {
     isLoggedIn: false,
